@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  spring-app:
+    image: my-image:latest
+    ports:
+      - "9090:9090"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://192.168.136.132:5432/devops
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: root1234
+
+  jenkins:
+    container_name: jenkins
+    image: jenkins/jenkins:lts
+    ports:
+      - "8088:8080"
+      - "50000:50000"
+    volumes:
+      - "D:/esprit/barhoum/jenkinsData:/var/jenkins_home"
+    environment:
+      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+
+volumes:
+  jenkins_home:
