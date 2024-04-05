@@ -20,6 +20,20 @@ services:
       - "D:/esprit/barhoum/jenkinsData:/var/jenkins_home"
     environment:
       - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+  
+  nexus:
+    image: sonatype/nexus3:latest
+    container_name: nexus
+    ports:
+      - "8081:8081"
+    volumes:
+      - nexus_data:D:/esprit/barhoum/nexus-data
+    restart: always
 
+ 
 volumes:
   jenkins_home:
+    driver: local
+  nexus_data:
+    driver: local
+  
