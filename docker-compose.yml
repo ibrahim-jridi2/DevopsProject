@@ -30,7 +30,7 @@ services:
       - postgres
     build: /home/ibrahim/DevopsProject
     restart: on-failure
-    env_file: ./.env
+
     ports:
       - 9090:9090
     
