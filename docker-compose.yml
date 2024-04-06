@@ -10,30 +10,30 @@ services:
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: root1234
 
-  jenkins:
-    container_name: jenkins
-    image: jenkins/jenkins:lts
-    ports:
-      - "8088:8080"
-      - "50000:50000"
-    volumes:
-      - "D:/esprit/barhoum/jenkinsData:/var/jenkins_home"
-    environment:
-      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+  # jenkins:
+  #   container_name: jenkins
+  #   image: jenkins/jenkins:lts
+  #   ports:
+  #     - "8088:8080"
+  #     - "50000:50000"
+  #   volumes:
+  #     - "D:/esprit/barhoum/jenkinsData:/var/jenkins_home"
+  #   environment:
+  #     - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
   
-  nexus:
-    image: sonatype/nexus3:latest
-    container_name: nexus
-    ports:
-      - "8081:8081"
-    volumes:
-      - nexus_data:D:/esprit/barhoum/nexus-data
-    restart: always
+  # nexus:
+  #   image: sonatype/nexus3:latest
+  #   container_name: nexus
+  #   ports:
+  #     - "8081:8081"
+  #   volumes:
+  #     - nexus_data:D:/esprit/barhoum/nexus-data
+  #   restart: always
 
  
-volumes:
-  jenkins_home:
-    driver: local
-  nexus_data:
-    driver: local
+# volumes:
+#   jenkins_home:
+#     driver: local
+#   nexus_data:
+#     driver: local
   
