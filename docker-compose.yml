@@ -1,39 +1,44 @@
 version: '3'
 
 services:
-  spring-app:
-    image: my-image:latest
-    ports:
-      - "9090:9090"
+  #spring-app:
+    #image: my-image:latest
+    #ports:
+      #- "9090:9090"
+    #environment:
+      #SPRING_DATASOURCE_URL: jdbc:postgresql://192.168.136.132:5432/devops
+      #SPRING_DATASOURCE_USERNAME: postgres
+      #SPRING_DATASOURCE_PASSWORD: root1234
+      
+      
+  postgres:
+    image: postgres
+    container_name: postgres
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://192.168.136.132:5432/devops
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: root1234
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root1234
+      POSTGRES_DB: postgres
+      PGDATA: /data/postgres
+      LISTEN_ADDRESSES: '*'
+    volumes:
+      - /home/ibrahim/postgres-data/:/data/postgres/
+    ports:
+      - 5432:5432
 
-  # jenkins:
-  #   container_name: jenkins
-  #   image: jenkins/jenkins:lts
-  #   ports:
-  #     - "8088:8080"
-  #     - "50000:50000"
-  #   volumes:
-  #     - "D:/esprit/barhoum/jenkinsData:/var/jenkins_home"
-  #   environment:
-  #     - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
-  
-  # nexus:
-  #   image: sonatype/nexus3:latest
-  #   container_name: nexus
-  #   ports:
-  #     - "8081:8081"
-  #   volumes:
-  #     - nexus_data:D:/esprit/barhoum/nexus-data
-  #   restart: always
+  app:
+    depends_on:
+      - postgres
+    build: /home/ibrahim/DevopsProject
+    restart: on-failure
+    env_file: ./.env
+    ports:
+      - 9090:9090
+    
+   
+    volumes:
+      - .m2:/root/.m2
+    stdin_open: true
+    tty: true
 
- 
-# volumes:
-#   jenkins_home:
-#     driver: local
-#   nexus_data:
-#     driver: local
-  
+volumes:
+  db:
