@@ -90,13 +90,13 @@
     </build>
     <distributionManagement>
         <snapshotRepository>
-            <id>InternalSnapshots</id>
-            <name>Internal Snapshots</name>
+            <id>deploymentRepo </id>
+            <name> Nexus Repository </name>
             <url>http://localhost:8081/repository/maven-snapshots</url>
         </snapshotRepository>
         <repository>
-            <id>InternalReleases</id>
-            <name>Internal Releases</name>
+            <id>deploymentRepo </id>
+            <name> Nexus Repository </name>
             <url>http://localhost:8081/repository/maven-releases</url>
         </repository>
     </distributionManagement>
