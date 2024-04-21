@@ -1,0 +1,49 @@
+pipeline {
+   agent { label 'agent1' }
+    stages {
+        stage('Checkout') {
+            steps {
+                echo "Getting Project from Git"
+                git branch: "main",
+                    url: "https://github.com/ibrahim-jridi2/DevopsProject.git"
+            }
+        }
+        stage('SonarQube analysis') {
+            steps {
+                script {
+                    sh 'mvn clean'
+                    sh 'mvn compile sonar:sonar -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.organization=deployapp -Dsonar.projectKey=deployapp_newdeployapp -Dsonar.login=8578ac26a6e0c5334ec207b57b139ae14b56e9d4'
+                }
+            }
+        }
+        stage('Build Artifact') {
+            steps {
+                sh 'mvn package -DskipTests'
+            }
+        }
+        stage('Deploy Artifact') {
+            steps {
+                sh 'mvn deploy -DskipTests'
+            }
+        }
+        stage('Build Docker image') {
+            steps {
+                script {
+                    sh 'docker build -t app-container .'
+                }
+            }
+        }
+        stage('Run Docker image with docker compose') {
+            steps {
+                script {
+                     sh 'docker-compose up --build -d'
+                }
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}

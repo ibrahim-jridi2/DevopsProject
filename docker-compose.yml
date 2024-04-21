@@ -28,7 +28,7 @@ services:
   app:
     depends_on:
       - postgres
-    build: .
+    build: /home/ibrahim/DevopsProject
     restart: on-failure
 
     ports:
