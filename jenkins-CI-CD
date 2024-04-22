@@ -8,10 +8,17 @@ pipeline {
                     url: "https://github.com/ibrahim-jridi2/DevopsProject.git"
             }
         }
+         stage('coverage test') {
+                    steps {
+                        script {
+                            sh 'mvn clean test -P test jacoco:report'
+                        }
+                    }
+                    }
         stage('SonarQube analysis') {
             steps {
                 script {
-                    sh 'mvn clean'
+
                     sh 'mvn compile sonar:sonar -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.organization=deployapplication -Dsonar.projectKey=deployapplication_newproject -Dsonar.login=92fab6e825aef77c0b2694fc82dd679f24fc8659'
                 }
             }
