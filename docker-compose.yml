@@ -11,9 +11,9 @@ services:
       #SPRING_DATASOURCE_PASSWORD: root1234
       
       
-  postgres:
+  postgres1:
     image: postgres
-    container_name: postgres
+    container_name: postgres1
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root1234
@@ -27,7 +27,7 @@ services:
 
   app:
     depends_on:
-      - postgres
+      - postgres1
     build: /home/ibrahim/DevopsProject
     restart: on-failure
 
