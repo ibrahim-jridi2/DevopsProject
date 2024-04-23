@@ -21,7 +21,7 @@ FROM maven:3.8.4-openjdk-17-slim AS build
 COPY pom.xml .
 COPY src ./src
 
-# Build the application
+# Build the applicationn
 RUN mvn clean package -DskipTests
 
 # Create a volume directory
