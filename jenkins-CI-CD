@@ -75,7 +75,7 @@ pipeline {
                         )
                     }
         }
-        stage('Publish Docker Image') {
+        stage('Publish Docker Image to dockerhub') {
             steps {
                 script {
                     // Tag the Docker image for Docker Hub
@@ -88,6 +88,20 @@ pipeline {
                     sh 'docker push ibrahimjridi/devops:latest'
                 }
             }
+        }
+        stage('Publish Docker Image to nexus') {
+                    steps {
+                        script {
+                            // Log in to localhost8082
+                            sh 'docker login localhost:8082'
+
+                            // Tag the Docker image for nexus
+                            sh 'docker tag newpipe_app:latest localhost:8082/repository/devops/newpipe_app:1.0.1'
+
+                            // Push the Docker image to nexus
+                            sh 'docker push localhost:8082/repository/devops/newpipe_app:1.0.0'
+                        }
+                    }
         }
     }
     post {
