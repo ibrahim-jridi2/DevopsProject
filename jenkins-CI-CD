@@ -74,7 +74,21 @@ pipeline {
                             body: "Pipeline ${currentBuild.currentResult}"
                         )
                     }
+        }
+        stage('Publish Docker Image') {
+            steps {
+                script {
+                    // Tag the Docker image for Docker Hub
+                    sh 'docker tag newpipe_app:latest ibrahimjridi/devops:latest'
+
+                    // Log in to Docker Hub
+                    sh 'docker login -u ibrahimjridi -p Ibrahim2014++'
+
+                    // Push the Docker image to Docker Hub
+                    sh 'docker push ibrahimjridi/devops:latest'
                 }
+            }
+        }
     }
     post {
         always {
