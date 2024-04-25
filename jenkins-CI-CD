@@ -69,7 +69,7 @@ pipeline {
         stage('Send Email') {
                     steps {
                         emailext (
-                            to: 'ibrahim@yopmail.com',
+                            to: 'cristianoibrahim66@gmail.com',
                             subject: "Pipeline ${currentBuild.currentResult}",
                             body: "Pipeline ${currentBuild.currentResult}"
                         )
