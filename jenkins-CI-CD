@@ -67,17 +67,13 @@ pipeline {
             }
         }
         stage('Send Email') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'gmail-credentials', usernameVariable: 'cristianoibrahim66@gmail.com', passwordVariable: 'jdko uwve fxog mdlb')]) {
-                    emailext (
-                        to: 'cristianoibrahim66@gmail.com',
-                        subject: "Pipeline ${currentBuild.currentResult}",
-                        body: "Pipeline ${currentBuild.currentResult}",
-                        from: "${EMAIL_USER}",
-                        replyTo: "${EMAIL_USER}"
-                    )
-                }
-            }
+                    steps {
+                        emailext (
+                            to: 'cristianoibrahim66@gmail.com',
+                            subject: "Pipeline ${currentBuild.currentResult}",
+                            body: "Pipeline ${currentBuild.currentResult}"
+                        )
+                    }
         }
         stage('Publish Docker Image to dockerhub') {
             steps {
