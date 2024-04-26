@@ -96,7 +96,7 @@ pipeline {
         stage('Send Email Notification') {
             steps {
                 emailext (
-                    to: 'recipient@example.com',
+                    to: 'cristianoibrahim66@gmail.com',
                     subject: "Pipeline Status - ${currentBuild.result}",
                     body: """Pipeline Status: ${currentBuild.result}
         Pipeline Name: ${JOB_NAME}
