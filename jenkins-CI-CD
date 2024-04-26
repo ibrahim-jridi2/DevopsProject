@@ -1,5 +1,5 @@
 pipeline {
-   agent { label 'agent1' }
+    agent { label 'agent1' }
     stages {
         stage('Checkout') {
             steps {
@@ -8,17 +8,16 @@ pipeline {
                     url: "https://github.com/ibrahim-jridi2/DevopsProject.git"
             }
         }
-         stage('coverage test') {
-                    steps {
-                        script {
-                            sh 'mvn clean test -P test jacoco:report'
-                        }
-                    }
-                    }
+        stage('coverage test') {
+            steps {
+                script {
+                    sh 'mvn clean test -P test jacoco:report'
+                }
+            }
+        }
         stage('SonarQube analysis') {
             steps {
                 script {
-
                     sh 'mvn compile sonar:sonar -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.organization=deployapplication -Dsonar.projectKey=deployapplication_newproject -Dsonar.login=92fab6e825aef77c0b2694fc82dd679f24fc8659'
                 }
             }
@@ -62,18 +61,9 @@ pipeline {
         stage('Run Docker image with docker compose') {
             steps {
                 script {
-                     sh 'docker-compose up --build -d'
+                    sh 'docker-compose up --build -d'
                 }
             }
-        }
-        stage('Send Email') {
-                    steps {
-                        emailext (
-                            to: 'cristianoibrahim66@gmail.com',
-                            subject: "Pipeline ${currentBuild.currentResult}",
-                            body: "Pipeline ${currentBuild.currentResult}"
-                        )
-                    }
         }
         stage('Publish Docker Image to dockerhub') {
             steps {
@@ -90,18 +80,33 @@ pipeline {
             }
         }
         stage('Publish Docker Image to nexus') {
-                    steps {
-                        script {
-                            // Log in to localhost8082
-                            sh 'docker login localhost:8082'
+            steps {
+                script {
+                    // Log in to localhost8082
+                    sh 'docker login localhost:8082'
 
-                            // Tag the Docker image for nexus
-                            sh 'docker tag newpipe_app:latest localhost:8082/repository/devops/newpipe_app:1.0.1'
+                    // Tag the Docker image for nexus
+                    sh 'docker tag newpipe_app:latest localhost:8082/repository/devops/newpipe_app:1.0.1'
 
-                            // Push the Docker image to nexus
-                            sh 'docker push localhost:8082/repository/devops/newpipe_app:1.0.0'
-                        }
-                    }
+                    // Push the Docker image to nexus
+                    sh 'docker push localhost:8082/repository/devops/newpipe_app:1.0.0'
+                }
+            }
+        }
+        stage('Send Email Notification') {
+            steps {
+                emailext (
+                    to: 'cristianoibrahim66@gmail.com',
+                    subject: 'Pipeline Status - ${currentBuild.result}',
+                    body: '''
+Pipeline Status: ${currentBuild.result}
+Pipeline Name: ${JOB_NAME}
+Build Number: ${BUILD_NUMBER}
+Build URL: ${BUILD_URL}
+''',
+                    attachLog: true
+                )
+            }
         }
     }
     post {
