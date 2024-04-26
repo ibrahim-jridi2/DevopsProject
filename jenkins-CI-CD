@@ -93,21 +93,16 @@ pipeline {
                 }
             }
         }
-        stage('Send Email Notification') {
-            steps {
-                emailext (
-                    to: 'cristianoibrahim66@gmail.com',
-                    subject: 'Pipeline Status - ${currentBuild.result}',
-                    body: '''
-Pipeline Status: ${currentBuild.result}
-Pipeline Name: ${JOB_NAME}
-Build Number: ${BUILD_NUMBER}
-Build URL: ${BUILD_URL}
-''',
-                    attachLog: true
-                )
-            }
-        }
+       stage('Send Email Notification') {
+           steps {
+               emailext (
+                   to: 'cristianoibrahim66@gmail.com',
+                   subject: 'Pipeline Status',
+                   body: 'This is a test email notification from Jenkins pipeline.',
+                   attachLog: true
+               )
+           }
+       }
     }
     post {
         always {
